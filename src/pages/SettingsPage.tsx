@@ -68,7 +68,7 @@ export function SettingsPage() {
     try {
       const backup = await createBackup();
       downloadText(
-        `harbor-finance-backup-${todayStamp()}.json`,
+        `obsidian-finance-backup-${todayStamp()}.json`,
         backupToText(backup),
         'application/json',
       );
@@ -169,7 +169,7 @@ export function SettingsPage() {
         const removed = await removeSampleData();
         toast(`Removed ${removed} sample records. Real records were untouched.`, 'success');
       } else if (result?.ok) {
-        toast('Sample workspace loaded. It is clearly labelled in the sidebar.', 'success');
+        toast('Sample workspace loaded. It is clearly labelled in this workspace.', 'success');
       } else {
         toast(result?.reason ?? 'Sample data could not be loaded.', 'danger');
       }
@@ -211,15 +211,6 @@ export function SettingsPage() {
                 </button>
               ))}
             </div>
-            <label className="checkbox-row" htmlFor="setting-sidebar">
-              <input
-                id="setting-sidebar"
-                type="checkbox"
-                checked={settings.sidebarCollapsed}
-                onChange={(event) => update({ sidebarCollapsed: event.target.checked })}
-              />
-              <span>Start with the sidebar collapsed to an icon rail on desktop.</span>
-            </label>
           </div>
         </section>
 
@@ -464,7 +455,7 @@ export function SettingsPage() {
           <div>
             <h3 className="card-title">About this app</h3>
             <p className="small muted" style={{ marginTop: 4 }}>
-              Harbor Finance — Ultimate Personal Finance Tracker v{APP_VERSION}. Offline-first,
+              Obsidian Finance — Ultimate Personal Finance Tracker v{APP_VERSION}. Offline-first,
               single-user, no bank connections, no telemetry, no subscription.
             </p>
           </div>

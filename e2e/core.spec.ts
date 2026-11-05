@@ -37,17 +37,16 @@ test('first run creates an account, records a transaction and opens its detail v
   await expect(page.getByRole('link', { name: 'Coffee beans' })).toBeVisible();
 });
 
-test('desktop top bar hides the mobile menu button and shows the sidebar collapse control', async ({
-  page,
-}) => {
+test('desktop top bar keeps the primary navigation in the top strip', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/#/');
-  const menuButton = page.getByRole('button', { name: 'Open navigation' });
-  await expect(menuButton).toBeHidden();
-  await expect(page.getByRole('button', { name: 'Collapse sidebar' })).toBeVisible();
+  const nav = page.getByRole('navigation', { name: 'Primary navigation' });
+  await expect(nav).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Dashboard', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Reports', exact: true })).toBeVisible();
 });
 
-test('sample workspace navigation keeps sidebar and list context', async ({ page }) => {
+test('sample workspace navigation keeps list context', async ({ page }) => {
   await page.goto('/#/');
   await page.getByRole('button', { name: 'Explore sample workspace' }).click();
   await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
@@ -67,13 +66,6 @@ test('sample workspace navigation keeps sidebar and list context', async ({ page
   await expect(page).toHaveURL(/#\/transactions\/.+/);
   await page.goBack();
   await expect(search).toHaveValue(firstDescription!);
-
-  await page.getByRole('button', { name: 'Collapse sidebar' }).click();
-  await expect(page.locator('.app-shell')).toHaveAttribute('data-collapsed', 'true');
-  await page.reload();
-  await expect(page.locator('.app-shell')).toHaveAttribute('data-collapsed', 'true');
-  await page.getByRole('button', { name: 'Expand sidebar' }).click();
-  await expect(page.locator('.app-shell')).toHaveAttribute('data-collapsed', 'false');
 });
 
 test('reports render an accessible chart table and CSV download', async ({ page }) => {

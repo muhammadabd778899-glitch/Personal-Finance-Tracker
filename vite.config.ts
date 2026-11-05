@@ -11,12 +11,12 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Ultimate Personal Finance Tracker',
-        short_name: 'Finance Tracker',
+        name: 'Obsidian Finance — Ultimate Personal Finance Tracker',
+        short_name: 'Obsidian Finance',
         description:
           'A private, offline-first personal finance workspace for accounts, budgets, bills, goals, debt and net worth.',
-        theme_color: '#1f6f5c',
-        background_color: '#f6f4ef',
+        theme_color: '#0a0a0b',
+        background_color: '#fafafa',
         display: 'standalone',
         orientation: 'portrait',
         start_url: './',

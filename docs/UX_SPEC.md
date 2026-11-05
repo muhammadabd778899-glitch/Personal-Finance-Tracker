@@ -25,16 +25,13 @@ Routing uses hashes (`#/transactions`) so the built app works from a folder, a s
 
 ### Desktop (≥ 901 px)
 
-- Fixed left sidebar, full height, with icon + label navigation.
-- Sidebar can collapse to an icon rail. Collapse state is persisted in settings.
-- Width transition is 200 ms; labels fade rather than jump.
-- Collapsed items show a tooltip on hover and focus.
-- Top bar is sticky and contains page title, breadcrumb, theme toggle and **Add transaction**.
-- Main content scrolls independently; no overlap between sidebar and content.
+- Sticky top bar contains page title, breadcrumb, theme toggle and **Add transaction**.
+- Primary navigation renders as a horizontal top strip below the top bar with brand, active pill state and overflow scrolling.
+- Main content scrolls independently; no overlap or overflow at target widths.
 
 ### Tablet / mobile (≤ 900 px)
 
-- Sidebar becomes an off-canvas drawer with a backdrop.
+- Top navigation strip keeps all primary links reachable via horizontal scroll.
 - The menu button opens the drawer; Escape, backdrop click or choosing a page closes it.
 - Drawer always shows labels, even if the desktop sidebar was collapsed.
 - Collapse control is hidden on mobile.
@@ -42,13 +39,13 @@ Routing uses hashes (`#/transactions`) so the built app works from a folder, a s
 
 ### Keyboard model
 
-| Key                         | Behaviour                                               |
-| --------------------------- | ------------------------------------------------------- |
-| Tab                         | Moves through skip link, sidebar, top bar, page content |
-| Enter                       | Activates links and buttons; submits forms              |
-| Escape                      | Closes dialogs and the mobile drawer                    |
-| Tab / Shift+Tab in a dialog | Traps focus inside the dialog                           |
-| Browser back                | Returns to the previous list with its filters preserved |
+| Key                         | Behaviour                                                      |
+| --------------------------- | -------------------------------------------------------------- |
+| Tab                         | Moves through skip link, top bar, top navigation, page content |
+| Enter                       | Activates links and buttons; submits forms                     |
+| Escape                      | Closes dialogs                                                 |
+| Tab / Shift+Tab in a dialog | Traps focus inside the dialog                                  |
+| Browser back                | Returns to the previous list with its filters preserved        |
 
 ## 3. Screen contracts
 

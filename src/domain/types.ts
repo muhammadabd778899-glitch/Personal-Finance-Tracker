@@ -203,7 +203,6 @@ export interface AppSettings {
   currency: CurrencyCode;
   locale: string;
   theme: 'light' | 'dark' | 'system';
-  sidebarCollapsed: boolean;
   dateFormat: 'iso' | 'us' | 'eu' | 'long';
   firstDayOfWeek: 0 | 1;
   lastAccountId?: string;

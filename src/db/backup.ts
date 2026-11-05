@@ -16,7 +16,7 @@ import type {
   Transaction,
 } from '../domain/types';
 
-export const BACKUP_APP = 'ultimate-personal-finance-tracker';
+export const BACKUP_APP = 'obsidian-finance';
 export const BACKUP_VERSION = 1;
 export const MAX_BACKUP_BYTES = 60 * 1024 * 1024;
 

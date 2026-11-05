@@ -51,10 +51,9 @@ afterAll(async () => {
 describe('settings', () => {
   it('creates defaults once and merges saved patches', async () => {
     const initial = await getSettings();
-    expect(initial).toMatchObject({ id: 'app', currency: 'USD', sidebarCollapsed: false });
-    const updated = await saveSettings({ sidebarCollapsed: true, theme: 'dark' });
-    expect(updated.sidebarCollapsed).toBe(true);
-    expect(updated.theme).toBe('dark');
+    expect(initial).toMatchObject({ id: 'app', currency: 'USD', theme: 'dark' });
+    const updated = await saveSettings({ theme: 'light' });
+    expect(updated.theme).toBe('light');
     expect(await db.settings.count()).toBe(1);
     expect(defaultSettings().id).toBe('app');
   });

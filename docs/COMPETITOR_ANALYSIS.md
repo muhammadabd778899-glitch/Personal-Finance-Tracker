@@ -1,10 +1,10 @@
 # Competitor Analysis
 
-**Purpose:** Define the gap Harbor Finance fills and the expectations a buyer brings from existing tools.
+**Purpose:** Define the gap Obsidian Finance fills and the expectations a buyer brings from existing tools.
 
 ## Comparison set
 
-| Product               | Model                  | Strength                                        | Gap Harbor Finance addresses                            |
+| Product               | Model                  | Strength                                        | Gap Obsidian Finance addresses                          |
 | --------------------- | ---------------------- | ----------------------------------------------- | ------------------------------------------------------- |
 | YNAB                  | Subscription, cloud    | Strong zero-based budgeting method              | No subscription, no account, no bank link               |
 | Monarch Money         | Subscription, cloud    | Polished dashboards and household collaboration | Private local storage; no aggregation                   |
@@ -28,7 +28,7 @@
 
 ## What buyers expect and how we meet it
 
-| Expectation from paid apps | Harbor Finance response                                     |
+| Expectation from paid apps | Obsidian Finance response                                   |
 | -------------------------- | ----------------------------------------------------------- |
 | Fast transaction entry     | Quick-add dialog, remembered account/category, compact form |
 | Clear monthly view         | Dashboard pulse, month totals, budget remaining             |

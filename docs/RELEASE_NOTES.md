@@ -2,7 +2,7 @@
 
 ## 1.0.0 — 2026-11-05
 
-First public release of **Harbor Finance — Ultimate Personal Finance Tracker**.
+First public release of **Obsidian Finance — Ultimate Personal Finance Tracker**.
 
 ### Added
 
@@ -15,7 +15,7 @@ First public release of **Harbor Finance — Ultimate Personal Finance Tracker**
 - CSV export with formula-injection protection and CSV import with preview and duplicate detection.
 - Versioned JSON backups with canonical checksum, schema and relationship validation, atomic restore and safe wipe.
 - Clearly labelled sample workspace with namespace-safe removal.
-- Collapsible desktop sidebar, mobile drawer, keyboard dialogs, accessible charts and reduced-motion support.
+- Top navigation strip with brand and primary links, keyboard-friendly, mobile scrolling. Black default theme with light toggle, keyboard dialogs, accessible charts and reduced-motion support.
 - Installable PWA with generated icons and offline precache.
 - Vitest domain, repository and component tests, Playwright journeys and GitHub Actions CI.
 

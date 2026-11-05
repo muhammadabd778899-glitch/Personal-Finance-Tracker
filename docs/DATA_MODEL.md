@@ -112,7 +112,7 @@ One row per liability account, keyed by `accountId`.
 
 ## Settings
 
-Single row with `id = 'app'`: `currency`, `locale`, `theme`, `sidebarCollapsed`, `dateFormat`, `firstDayOfWeek`, `lastAccountId?`, `lastCategoryId?`, `sampleDataLoaded`, `createdAt`, `updatedAt`.
+Single row with `id = 'app'`: `currency`, `locale`, `theme`, `dateFormat`, `firstDayOfWeek`, `lastAccountId?`, `lastCategoryId?`, `sampleDataLoaded`, `createdAt`, `updatedAt`.
 
 ## Backup file
 

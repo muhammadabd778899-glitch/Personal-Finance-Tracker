@@ -1,12 +1,12 @@
-# Harbor Finance — Ultimate Personal Finance Tracker
+# Obsidian Finance — Ultimate Personal Finance Tracker
 
 A private, offline-first personal finance workspace for accounts, transactions, budgets, bills, goals, debt and net worth. Built with React, TypeScript and IndexedDB. No bank connection, no account, no cloud, no subscription.
 
-![Harbor Finance dashboard](docs/screenshots/dashboard.png)
+![Obsidian Finance dashboard](docs/screenshots/dashboard.png)
 
 ## Why this exists
 
-Most finance apps want your bank credentials and a monthly fee. Harbor Finance is the opposite: a complete local workspace you own. Your records stay in your browser, export to a versioned JSON file, and never leave the device.
+Most finance apps want your bank credentials and a monthly fee. Obsidian Finance is the opposite: a complete local workspace you own. Your records stay in your browser, export to a versioned JSON file, and never leave the device.
 
 It is a real application — not a spreadsheet template — with validated forms, safe history, detail routes, keyboard navigation, accessible charts and a tested calculation layer.
 

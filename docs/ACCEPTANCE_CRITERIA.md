@@ -15,12 +15,10 @@
 
 ## B. Navigation and shell
 
-- [x] All ten workspace areas are reachable from the sidebar.
+- [x] All ten workspace areas are reachable from the top navigation strip.
 - [x] Detail routes use stable IDs and have breadcrumbs to their lists.
 - [x] Browser back/forward restores list search, filters and sort from the URL.
-- [x] Sidebar collapses to an icon rail and persists across reloads.
-- [x] Collapsed items expose labels via tooltips and accessible names.
-- [x] Mobile drawer opens, traps attention visually, closes on Escape, backdrop click or navigation.
+- [x] Primary navigation stays in the top bar area and scrolls horizontally on small screens.
 - [x] No overlap or horizontal overflow between 320 px and 1440 px widths.
 - [x] Skip link moves focus to main content.
 - [x] Announcement: page titles update on navigation.
@@ -83,7 +81,7 @@
 - [x] Sample data is clearly labelled and every ID is prefixed `sample-`.
 - [x] Sample data cannot be loaded over real accounts.
 - [x] Removing sample data never touches real records.
-- [x] Currency, locale, theme, date format, first day of week and sidebar state persist.
+- [x] Currency, locale, theme, date format and first day of week persist.
 - [x] Theme toggle resolves `system` to the current preference.
 
 ## I. Accessibility and quality

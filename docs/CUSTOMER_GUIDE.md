@@ -1,6 +1,6 @@
 # Customer Guide
 
-Welcome to **Harbor Finance — Ultimate Personal Finance Tracker**. This guide takes you from first open to a backed-up workspace.
+Welcome to **Obsidian Finance — Ultimate Personal Finance Tracker**. This guide takes you from first open to a backed-up workspace.
 
 ## 1. Open the app
 
@@ -19,8 +19,7 @@ Open **Settings** and choose:
 
 - Workspace currency and locale.
 - Date format and first day of the week.
-- Light, dark or system theme.
-- Sidebar collapsed or expanded.
+- Light or dark theme (the workspace opens on the black theme).
 
 Settings save immediately in this browser.
 

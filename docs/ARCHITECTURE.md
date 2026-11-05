@@ -30,7 +30,7 @@ src/
 ├── styles/           tokens, base, layout, components, pages
 ├── App.tsx           route table
 ├── main.tsx          bootstrap and error fallback
-└── navigation.ts     sidebar and breadcrumb metadata
+└── navigation.ts     top navigation and breadcrumb metadata
 tests/                Vitest unit, repository and component tests
 e2e/                  Playwright journeys
 docs/                 product, UX, data, rules and release documentation
@@ -98,13 +98,13 @@ The snapshot is intentionally small (personal finance volumes), which keeps deri
 
 ## 9. Testing strategy
 
-| Layer       | Tool                    | What is proven                                             |
-| ----------- | ----------------------- | ---------------------------------------------------------- |
-| Domain      | Vitest                  | Money parsing, dates, recurrence, budgets, forecast, debt  |
-| Persistence | Vitest + fake-indexeddb | CRUD, archive rules, atomic imports, backup validation     |
-| Components  | Testing Library         | Labels, errors, dialog keyboard behaviour, progress bars   |
-| Journeys    | Playwright              | First-run CRUD, detail routes, sidebar persistence, drawer |
-| Build       | `npm run verify`        | Format, types, lint, tests, production build               |
+| Layer       | Tool                    | What is proven                                                  |
+| ----------- | ----------------------- | --------------------------------------------------------------- |
+| Domain      | Vitest                  | Money parsing, dates, recurrence, budgets, forecast, debt       |
+| Persistence | Vitest + fake-indexeddb | CRUD, archive rules, atomic imports, backup validation          |
+| Components  | Testing Library         | Labels, errors, dialog keyboard behaviour, progress bars        |
+| Journeys    | Playwright              | First-run CRUD, detail routes, top navigation, reports/download |
+| Build       | `npm run verify`        | Format, types, lint, tests, production build                    |
 
 ## 10. Constraints
 

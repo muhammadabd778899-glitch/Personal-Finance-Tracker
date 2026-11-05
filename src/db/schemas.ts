@@ -185,7 +185,6 @@ export const settingsSchema: z.ZodType<AppSettings> = z.object({
   currency: z.string().length(3),
   locale: z.string().min(2).max(20),
   theme: z.enum(['light', 'dark', 'system']),
-  sidebarCollapsed: z.boolean(),
   dateFormat: z.enum(['iso', 'us', 'eu', 'long']),
   firstDayOfWeek: z.union([z.literal(0), z.literal(1)]),
   lastAccountId: id.optional(),

@@ -1,6 +1,6 @@
 # Product Specification
 
-**Product:** Harbor Finance — Ultimate Personal Finance Tracker
+**Product:** Obsidian Finance — Ultimate Personal Finance Tracker
 **Version:** 1.0.0
 **Status:** Release candidate
 **Owner:** Muhammad Abdullah
@@ -8,7 +8,7 @@
 
 ## 1. Product statement
 
-Harbor Finance is a private, offline-first personal finance workspace. It runs entirely in the browser with no bank connection, no user account, no cloud sync and no subscription. It is a real application — not a spreadsheet — that helps one person understand their accounts, spending, budgets, upcoming bills, savings goals, debt and net worth.
+Obsidian Finance is a private, offline-first personal finance workspace. It runs entirely in the browser with no bank connection, no user account, no cloud sync and no subscription. It is a real application — not a spreadsheet — that helps one person understand their accounts, spending, budgets, upcoming bills, savings goals, debt and net worth.
 
 The product is designed to be sold as an Etsy digital download and self-hosted or run locally. Every screen must be immediately useful with sample data and equally useful after the sample data is removed.
 
@@ -41,7 +41,7 @@ The product is designed to be sold as an Etsy digital download and self-hosted o
 - Versioned JSON backup, checksum validation, restore and wipe.
 - Sample workspace that is clearly labelled and removable.
 - Installable PWA with offline caching.
-- Local-only settings for currency, locale, theme, date format and sidebar state.
+- Local-only settings for currency, locale, theme, date format and week start.
 
 ### Out of scope for 1.0
 
@@ -69,7 +69,7 @@ A first-time buyer can, within ten minutes and without documentation:
 1. Load the sample workspace and understand what the app does.
 2. Create an account and record a transaction.
 3. Open a transaction, use browser back and land on the same filtered list.
-4. Collapse the sidebar, reload, and find it still collapsed.
+4. Toggle the theme, reload, and find the preference still applied.
 5. Export a backup and see a versioned JSON file.
 6. Read a report and open the data table behind a chart.
 

@@ -14,7 +14,7 @@ A complete personal finance workspace you own. Track accounts, spending, budgets
 
 **Your money, your device.**
 
-Harbor Finance is a one-time digital download for people who want a real budgeting app without handing bank credentials to a company or paying every month. It runs entirely in your browser and stores everything locally.
+Obsidian Finance is a one-time digital download for people who want a real budgeting app without handing bank credentials to a company or paying every month. It runs entirely in your browser and stores everything locally.
 
 **What is included**
 
@@ -92,4 +92,4 @@ Personal use license. You may use the app for your own finances and keep backups
 5. Debt planner comparison.
 6. Reports with chart and table.
 7. Backup and restore settings.
-8. Mobile drawer view.
+8. Mobile top navigation strip view.

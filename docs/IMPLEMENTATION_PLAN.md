@@ -39,11 +39,11 @@ Exit criteria: fake-indexeddb tests prove archive rules, atomic failure and rest
 ## M4 — Design system and shell
 
 - Buttons, fields, cards, badges, dialogs, confirmations, toasts, progress bars, empty states.
-- Collapsible sidebar, icon rail, tooltips, mobile drawer, skip link.
+- Top navigation strip with brand, primary links and overflow scrolling, skip link.
 - Sticky top bar, theme toggle, page metadata and breadcrumbs.
 - Accessible SVG charts with data tables.
 
-Exit criteria: keyboard-only navigation works; sidebar state persists; no overlap at target widths.
+Exit criteria: keyboard-only navigation works; no overlap at target widths.
 
 ## M5 — Core workspace screens
 
@@ -85,7 +85,7 @@ Exit criteria: production build installs and opens offline.
 ## M9 — Testing and quality gates
 
 - Expand domain, persistence and component tests.
-- Playwright journeys for first run, detail routes, sidebar persistence, mobile drawer, reports/download.
+- Playwright journeys for first run, detail routes, top navigation, reports/download.
 - CI workflow for format, types, lint, tests, build and E2E.
 
 Exit criteria: `npm run verify` and Playwright pass locally and in CI.

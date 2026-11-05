@@ -553,7 +553,7 @@ export function GoalForm({ initial, onSaved, onCancel }: BaseFormProps & { initi
   );
   const [targetDate, setTargetDate] = useState(initial?.targetDate ?? '');
   const [accountId, setAccountId] = useState(initial?.accountId ?? '');
-  const [color, setColor] = useState(initial?.color ?? '#1f6f5c');
+  const [color, setColor] = useState(initial?.color ?? '#111111');
   const [notes, setNotes] = useState(initial?.notes ?? '');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);

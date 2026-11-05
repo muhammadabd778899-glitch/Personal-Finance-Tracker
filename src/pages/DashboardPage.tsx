@@ -14,7 +14,7 @@ import { buildPulse } from '../domain/pulse';
 import { upcomingOccurrences } from '../domain/recurrence';
 import { loadSampleData } from '../db/sample';
 import { useData, useFormatters } from '../state/DataContext';
-import { BarChart } from '../components/charts';
+import { BarChart, LineChart } from '../components/charts';
 import {
   Badge,
   Button,
@@ -342,6 +342,26 @@ export function DashboardPage() {
 
       <div className="grid grid-main">
         <div className="stack">
+          <Card>
+            <div className="card-header">
+              <div>
+                <div className="card-title">Net worth trend</div>
+                <div className="card-subtitle">Assets minus liabilities · last 12 months</div>
+              </div>
+            </div>
+            <div className="card-body">
+              <LineChart
+                data={netWorthHistory.series.map((point) => ({
+                  date: point.date,
+                  value: point.net,
+                  label: formatMonth(point.date, false).replace(' ', ' ’').slice(0, 9),
+                }))}
+                format={(value) => money(value, { compact: true })}
+                ariaLabel="Net worth trend over the last twelve months"
+              />
+            </div>
+          </Card>
+
           <Card>
             <div className="card-header">
               <div>

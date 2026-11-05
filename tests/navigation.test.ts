@@ -25,7 +25,7 @@ describe('navigation model', () => {
     expect(pageMeta('/unknown')).toEqual({ title: 'Not found' });
   });
 
-  it('keeps the sidebar selection on a parent route for detail pages', () => {
+  it('keeps the parent route selected on detail pages', () => {
     expect(activeNav('/')).toBe('/');
     expect(activeNav('/transactions/abc')).toBe('/transactions');
     expect(activeNav('/accounts/abc')).toBe('/accounts');
