@@ -2,16 +2,19 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { NAV_ITEMS, pageMeta } from '../navigation';
 import { saveSettings } from '../db/repositories';
-import { useSettings } from '../state/DataContext';
+import { loadSampleData } from '../db/sample';
+import { useData, useSettings } from '../state/DataContext';
 import { Button, Dialog, useToast } from './ui';
 import { Icon } from './icons';
 import { TransactionForm } from './TransactionForm';
 
 export function AppLayout() {
   const settings = useSettings();
+  const { data } = useData();
   const location = useLocation();
   const { toast } = useToast();
   const [quickAddOpen, setQuickAddOpen] = useState(false);
+  const [sampleBusy, setSampleBusy] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
   const meta = pageMeta(location.pathname);
 
@@ -19,6 +22,19 @@ export function AppLayout() {
     window.scrollTo({ top: 0, behavior: 'auto' });
     document.title = `${meta.title} · Obsidian Finance — Ultimate Personal Finance Tracker`;
   }, [location.pathname, meta.title]);
+
+  async function addSample() {
+    setSampleBusy(true);
+    try {
+      const result = await loadSampleData();
+      if (result.ok) toast('Sample workspace loaded. Remove it any time in Settings.', 'success');
+      else toast(result.reason ?? 'Sample data could not be loaded.', 'danger');
+    } catch (error) {
+      toast(error instanceof Error ? error.message : 'Could not load sample data.', 'danger');
+    } finally {
+      setSampleBusy(false);
+    }
+  }
 
   async function toggleTheme() {
     const resolved =
@@ -56,6 +72,21 @@ export function AppLayout() {
         </div>
 
         <div className="topbar-actions">
+          {settings.sampleDataLoaded ? (
+            <span className="topbar-sample">Sample data</span>
+          ) : data.accounts.length === 0 ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={addSample}
+              disabled={sampleBusy}
+              aria-label="Load sample data"
+              title="Load a clearly labelled sample workspace"
+              icon={<Icon name="sparkle" size={16} />}
+            >
+              <span className="btn-label">{sampleBusy ? 'Loading…' : 'Load sample data'}</span>
+            </Button>
+          ) : null}
           <Button
             variant="ghost"
             className="btn-icon"
@@ -68,9 +99,10 @@ export function AppLayout() {
           <Button
             variant="primary"
             icon={<Icon name="plus" size={17} />}
+            aria-label="Add transaction"
             onClick={() => setQuickAddOpen(true)}
           >
-            Add transaction
+            <span className="btn-label">Add transaction</span>
           </Button>
         </div>
       </header>

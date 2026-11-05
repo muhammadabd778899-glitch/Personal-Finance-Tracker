@@ -15,8 +15,8 @@ export default defineConfig({
         short_name: 'Obsidian Finance',
         description:
           'A private, offline-first personal finance workspace for accounts, budgets, bills, goals, debt and net worth.',
-        theme_color: '#0a0a0b',
-        background_color: '#fafafa',
+        theme_color: '#050705',
+        background_color: '#050705',
         display: 'standalone',
         orientation: 'portrait',
         start_url: './',

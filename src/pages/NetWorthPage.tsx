@@ -34,6 +34,7 @@ export function NetWorthPage() {
   const assets = totalAssets(balances);
   const liabilities = totalLiabilities(balances);
   const net = netWorth(balances);
+  const gross = assets + liabilities;
   const assetEntries = balances
     .filter((entry) => !isLiability(entry.account.type))
     .sort((a, b) => b.balance - a.balance);
@@ -92,6 +93,25 @@ export function NetWorthPage() {
           <Badge tone="accent">Derived from records</Badge>
         </div>
         <div className="card-body">
+          {gross > 0 ? (
+            <div className="composition">
+              <div className="composition-bar">
+                <span className="assets" style={{ width: `${(assets / gross) * 100}%` }} />
+                <span
+                  className="liabilities"
+                  style={{ width: `${(liabilities / gross) * 100}%` }}
+                />
+              </div>
+              <div className="composition-legend">
+                <span>
+                  <i style={{ background: 'var(--accent)' }} /> Assets {money(assets)}
+                </span>
+                <span>
+                  <i style={{ background: 'var(--warning)' }} /> Liabilities {money(liabilities)}
+                </span>
+              </div>
+            </div>
+          ) : null}
           <LineChart
             data={summary.series.map((point) => ({
               date: point.date,

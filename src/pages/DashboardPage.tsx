@@ -14,7 +14,8 @@ import { buildPulse } from '../domain/pulse';
 import { upcomingOccurrences } from '../domain/recurrence';
 import { loadSampleData } from '../db/sample';
 import { useData, useFormatters } from '../state/DataContext';
-import { BarChart, LineChart } from '../components/charts';
+import { BarChart, DonutChart, LineChart, Sparkline } from '../components/charts';
+import { DONUT_COLORS } from '../components/chartPalette';
 import {
   Badge,
   Button,
@@ -73,6 +74,7 @@ export function DashboardPage() {
     () => spendingByCategory(data.transactions, data.categories, monthStart, monthEnd).slice(0, 6),
     [data.transactions, data.categories, monthStart, monthEnd],
   );
+  const categoryTotal = categoryRows.reduce((sum, row) => sum + row.amount, 0);
 
   const goals = useMemo(
     () =>
@@ -254,7 +256,7 @@ export function DashboardPage() {
   return (
     <div className="stack" style={{ gap: 18 }}>
       <div className="dashboard-hero">
-        <div>
+        <div className="hero-copy">
           <div className="hero-label">Net worth · {date(today)}</div>
           <h2>{money(totalNet)}</h2>
           <p className="hero-sub">
@@ -265,7 +267,7 @@ export function DashboardPage() {
             over the last 30 days · assets {money(netWorthHistory.assets)} · liabilities{' '}
             {money(netWorthHistory.liabilities)}
           </p>
-          <div className="hero-actions" style={{ marginTop: 16 }}>
+          <div className="hero-actions" style={{ marginTop: 20 }}>
             <Button
               variant="primary"
               onClick={() => setQuickAdd(true)}
@@ -278,22 +280,30 @@ export function DashboardPage() {
             </Link>
           </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 210 }}>
-          <div className="row" style={{ justifyContent: 'space-between' }}>
-            <span className="small muted">This month</span>
-            <Badge tone="accent">{formatMonth(today)}</Badge>
+        <div className="hero-panel">
+          <div className="hero-panel-head">
+            <span>12-month trend</span>
+            <Badge tone={netWorthHistory.change30Days >= 0 ? 'positive' : 'danger'} dot>
+              {netWorthHistory.change30Days >= 0 ? 'Up' : 'Down'}
+            </Badge>
           </div>
-          <div className="row" style={{ justifyContent: 'space-between' }}>
-            <span className="small">Income</span>
-            <strong className="tabular positive">{money(monthTotals.income)}</strong>
-          </div>
-          <div className="row" style={{ justifyContent: 'space-between' }}>
-            <span className="small">Spending</span>
-            <strong className="tabular">{money(monthSpend)}</strong>
-          </div>
-          <div className="row" style={{ justifyContent: 'space-between' }}>
-            <span className="small">Planned budgets</span>
-            <strong className="tabular">{money(budgeted)}</strong>
+          <Sparkline
+            data={netWorthHistory.series.map((point) => point.net)}
+            ariaLabel="Net worth trend over the last twelve months"
+          />
+          <div className="hero-stats">
+            <div>
+              <span>Income</span>
+              <strong className="positive">{money(monthTotals.income)}</strong>
+            </div>
+            <div>
+              <span>Spending</span>
+              <strong>{money(monthSpend)}</strong>
+            </div>
+            <div>
+              <span>Planned</span>
+              <strong>{money(budgeted)}</strong>
+            </div>
           </div>
         </div>
       </div>
@@ -580,27 +590,38 @@ export function DashboardPage() {
               Details
             </Link>
           </div>
-          <div className="card-body">
+          <div className="card-body category-donut">
             {categoryRows.length === 0 ? (
               <p className="small muted">No spending recorded this month.</p>
             ) : (
-              <div className="stack" style={{ gap: 12 }}>
-                {categoryRows.map((row) => (
-                  <div key={row.categoryId ?? 'uncategorized'} className="progress-row">
-                    <div className="progress-meta">
-                      <span style={{ color: 'var(--ink)', fontWeight: 600 }}>
-                        {row.categoryName}
-                      </span>
-                      <span>
+              <div className="donut-layout">
+                <DonutChart
+                  data={categoryRows.map((row) => ({
+                    label: row.categoryName,
+                    value: row.amount,
+                  }))}
+                  format={(value) => money(value)}
+                  centerValue={money(categoryTotal, { compact: true })}
+                  centerLabel="Spent"
+                  ariaLabel="Spending by category this month"
+                />
+                <ul className="donut-legend">
+                  {categoryRows.map((row, index) => (
+                    <li key={row.categoryId ?? 'uncategorized'}>
+                      <span
+                        className="dot"
+                        style={{
+                          background: DONUT_COLORS[index % DONUT_COLORS.length],
+                          color: DONUT_COLORS[index % DONUT_COLORS.length],
+                        }}
+                      />
+                      <span className="name">{row.categoryName}</span>
+                      <span className="share">
                         {money(row.amount)} · {Math.round(row.share)}%
                       </span>
-                    </div>
-                    <ProgressBar
-                      value={row.share}
-                      label={`${row.categoryName} share of spending`}
-                    />
-                  </div>
-                ))}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>

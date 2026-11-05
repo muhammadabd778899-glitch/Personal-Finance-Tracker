@@ -40,12 +40,18 @@
 .btn-primary {
   background: var(--accent);
   color: var(--accent-ink);
-  box-shadow: var(--shadow-xs);
+  font-weight: 700;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent),
+    0 10px 26px -12px var(--accent-glow);
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
   color: var(--accent-ink);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 70%, transparent),
+    0 12px 30px -10px var(--accent-glow);
 }
 
 .btn-secondary {
@@ -56,7 +62,8 @@
 
 .btn-secondary:hover {
   background: var(--surface-2);
-  border-color: var(--ink-soft);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line-strong));
+  color: var(--ink);
 }
 
 .btn-ghost {
@@ -111,10 +118,15 @@
 /* ---------- Cards ---------- */
 
 .card {
-  background: var(--surface);
+  position: relative;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--ink) 2.5%, transparent), transparent 42%),
+    var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-xs);
+  box-shadow:
+    var(--shadow-xs),
+    inset 0 1px 0 color-mix(in srgb, var(--ink) 4%, transparent);
 }
 
 .card-pad {
@@ -154,46 +166,85 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 18px 20px;
-  background: var(--surface);
+  gap: 9px;
+  padding: 19px 20px 18px;
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent 48%),
+    var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-xs);
+  box-shadow:
+    var(--shadow-xs),
+    inset 0 1px 0 color-mix(in srgb, var(--ink) 4%, transparent);
   overflow: hidden;
+  transition:
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.stat-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 28%, var(--line));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent 62%);
+  opacity: 0.55;
 }
 
 .stat-card::after {
   content: '';
   position: absolute;
   inset: 0 0 auto auto;
-  width: 90px;
-  height: 90px;
-  background: radial-gradient(circle at top right, var(--accent-soft), transparent 70%);
-  opacity: 0.8;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at top right, var(--accent-soft), transparent 68%);
+  opacity: 0.9;
   pointer-events: none;
 }
 
 .stat-label {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 11.5px;
-  font-weight: 650;
-  letter-spacing: 0.08em;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
+.stat-label svg {
+  color: var(--accent);
+}
+
 .stat-value {
+  position: relative;
+  z-index: 1;
   font-family: var(--font-display);
-  font-size: clamp(24px, 2.5vw, 30px);
-  line-height: 1.1;
+  font-size: clamp(25px, 2.5vw, 32px);
+  line-height: 1.05;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+}
+
+.stat-value.positive {
+  color: var(--accent);
+  text-shadow: 0 0 30px color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
 .stat-meta {
+  position: relative;
+  z-index: 1;
   font-size: 12.5px;
   color: var(--muted);
 }
@@ -209,23 +260,27 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 2px 8px;
+  padding: 2px 9px;
+  border: 1px solid transparent;
   border-radius: var(--radius-pill);
   background: var(--surface-2);
   color: var(--ink-soft);
-  font-size: 11.5px;
-  font-weight: 650;
-  line-height: 1.6;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.65;
   white-space: nowrap;
 }
 
 .badge-accent {
   background: var(--accent-soft);
-  color: var(--accent-soft-ink);
+  border-color: color-mix(in srgb, var(--accent) 24%, transparent);
+  color: var(--accent);
 }
 
 .badge-positive {
   background: var(--positive-soft);
+  border-color: color-mix(in srgb, var(--positive) 24%, transparent);
   color: var(--positive);
 }
 
@@ -749,9 +804,9 @@
 
 .segmented button[aria-pressed='true'],
 .segmented a[aria-current='page'] {
-  background: var(--surface);
-  color: var(--ink);
-  box-shadow: var(--shadow-xs);
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 /* ---------- Alert / notice ---------- */
@@ -804,22 +859,26 @@
   align-items: flex-start;
   gap: 10px;
   padding: 12px 14px;
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius-sm);
-  background: var(--ink);
-  color: var(--bg);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--ink);
   box-shadow: var(--shadow-md);
+  backdrop-filter: blur(14px);
   font-size: 13px;
   animation: toast-in 220ms var(--ease);
 }
 
 .toast-danger {
-  background: var(--danger);
-  color: #fff;
+  border-color: color-mix(in srgb, var(--danger) 40%, var(--line));
+  background: var(--danger-soft);
+  color: var(--danger);
 }
 
 .toast-success {
-  background: var(--accent);
-  color: var(--accent-ink);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .toast button {
@@ -857,12 +916,16 @@
 
 .chart .grid-line {
   stroke: var(--line);
+  stroke-dasharray: 3 7;
   stroke-width: 1;
+  opacity: 0.85;
 }
 
 .chart .axis-label {
   fill: var(--muted);
   font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   font-family: var(--font-sans);
 }
 
@@ -871,20 +934,25 @@
 }
 
 .chart .bar:hover {
-  opacity: 0.8;
+  opacity: 0.82;
 }
 
 .chart .line-path {
   fill: none;
   stroke: var(--accent);
-  stroke-width: 2.5;
+  stroke-width: 2.75;
   stroke-linejoin: round;
   stroke-linecap: round;
+  filter: drop-shadow(0 0 7px color-mix(in srgb, var(--accent) 40%, transparent));
 }
 
 .chart .area-path {
   fill: var(--accent-soft);
-  opacity: 0.7;
+  opacity: 0.8;
+}
+
+.chart .last-point {
+  filter: drop-shadow(0 0 8px var(--accent));
 }
 
 .chart-toggle {
@@ -899,11 +967,142 @@
 }
 
 .chart-toggle summary:hover {
-  color: var(--ink);
+  color: var(--accent);
 }
 
 .chart-table {
   margin-top: 10px;
+}
+
+/* ---------- Donut ---------- */
+
+.donut-layout {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+
+@media (max-width: 560px) {
+  .donut-layout {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 14px;
+  }
+}
+
+.donut {
+  position: relative;
+  width: 100%;
+  max-width: 190px;
+}
+
+.donut svg {
+  width: 100%;
+  height: auto;
+  transform: rotate(-90deg);
+}
+
+.donut-segment {
+  transition: opacity var(--transition);
+}
+
+.donut-segment:hover {
+  opacity: 0.8;
+}
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.donut-center strong {
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.donut-center span {
+  margin-top: 2px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.donut-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 9px 24px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.donut-legend li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  font-size: 12.5px;
+}
+
+.donut-legend .dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.donut-legend .name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-soft);
+}
+
+.donut-legend .share {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ---------- Sparkline ---------- */
+
+.sparkline {
+  width: 100%;
+  height: 64px;
+  overflow: visible;
+}
+
+.sparkline .spark-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 45%, transparent));
+}
+
+.sparkline .spark-area {
+  fill: var(--accent-soft);
+}
+
+.sparkline .spark-dot {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 6px var(--accent));
 }
 
 /* ---------- Definitions / detail lists ---------- */

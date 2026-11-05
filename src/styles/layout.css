@@ -1,6 +1,8 @@
 /* ---------- Application shell ---------- */
 
 .app-shell {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -26,8 +28,8 @@
   min-height: var(--topbar-h);
   flex: 0 0 auto;
   padding: 0 clamp(16px, 3vw, 34px);
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
   border-bottom: 1px solid var(--line);
 }
 
@@ -41,8 +43,9 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11.5px;
-  letter-spacing: 0.06em;
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -53,14 +56,15 @@
 }
 
 .breadcrumb a:hover {
-  color: var(--ink);
-  text-decoration: underline;
+  color: var(--accent);
+  text-decoration: none;
 }
 
 .topbar h1 {
   font-family: var(--font-display);
-  font-size: clamp(19px, 2vw, 23px);
+  font-size: clamp(19px, 2vw, 24px);
   line-height: 1.2;
+  letter-spacing: -0.025em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -73,11 +77,40 @@
   margin-left: auto;
 }
 
+.topbar-sample {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent-soft-ink);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.topbar-sample::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+
 /* ---------- Primary navigation (top strip) ---------- */
 
 .topnav {
+  position: sticky;
+  top: var(--topbar-h);
+  z-index: 29;
   flex: 0 0 auto;
-  background: var(--bg-elevated);
+  background: color-mix(in srgb, var(--bg-elevated) 84%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
   border-bottom: 1px solid var(--line);
 }
 
@@ -85,9 +118,9 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  max-width: 1280px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 8px clamp(16px, 3vw, 34px) 10px;
+  padding: 9px clamp(16px, 3vw, 34px) 10px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -100,8 +133,8 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 12px 6px 8px;
-  margin-right: 8px;
+  padding: 5px 12px 5px 6px;
+  margin-right: 10px;
   border-radius: var(--radius-pill);
   color: var(--ink);
   font-weight: 700;
@@ -116,19 +149,22 @@
 }
 
 .topnav-brand .brand-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
   background: var(--accent);
   color: var(--accent-ink);
-  box-shadow: none;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent),
+    0 0 22px -4px var(--accent-glow);
 }
 
 .topnav-link {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 14px;
+  gap: 8px;
+  padding: 8px 13px;
+  border: 1px solid transparent;
   border-radius: var(--radius-pill);
   color: var(--ink-soft);
   font-size: 13px;
@@ -137,6 +173,7 @@
   white-space: nowrap;
   transition:
     background var(--transition),
+    border-color var(--transition),
     color var(--transition);
 }
 
@@ -146,19 +183,24 @@
   text-decoration: none;
 }
 
-.topnav-link[aria-current='page'] {
+.topnav-link[aria-current='page'],
+.topnav-link.topnav-link-active {
   background: var(--accent-soft);
-  color: var(--accent-soft-ink);
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+  box-shadow: inset 0 0 18px -10px var(--accent-glow);
 }
 
-.topnav-link[aria-current='page'] .nav-icon {
-  color: var(--accent-soft-ink);
+.topnav-link[aria-current='page'] .nav-icon,
+.topnav-link.topnav-link-active .nav-icon {
+  color: var(--accent);
 }
 
 .topnav-link .nav-icon {
   display: grid;
   place-items: center;
   color: var(--muted);
+  transition: color var(--transition);
 }
 
 .brand-mark {
@@ -183,11 +225,12 @@
   font-family: var(--font-display);
   font-size: 16px;
   line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .brand-text span {
-  font-size: 11px;
-  letter-spacing: 0.09em;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -196,10 +239,52 @@
 
 .page {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: clamp(18px, 2.6vw, 32px) clamp(16px, 3vw, 34px) 80px;
+  padding: clamp(20px, 2.6vw, 34px) clamp(16px, 3vw, 34px) 80px;
   flex: 1;
+  animation: page-in 320ms var(--ease);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --topbar-h: 62px;
+  }
+
+  .topbar {
+    gap: 10px;
+  }
+
+  .topbar h1 {
+    font-size: 18px;
+  }
+
+  .topbar-actions .btn-label {
+    display: none;
+  }
+
+  .topnav-brand {
+    margin-right: 4px;
+  }
+
+  .brand-text span {
+    display: none;
+  }
+
+  .brand-text strong {
+    font-size: 14px;
+  }
 }
 
 /* ---------- Motion ---------- */

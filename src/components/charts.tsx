@@ -1,4 +1,21 @@
-import { useId } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { DONUT_COLORS } from './chartPalette';
+
+function useMeasuredWidth(fallback: number) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(fallback);
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const observer = new ResizeObserver(([entry]) => {
+      const next = Math.round(entry.contentRect.width);
+      if (next > 0) setWidth(next);
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+  return [ref, width] as const;
+}
 
 interface BarDatum {
   label: string;
@@ -89,7 +106,9 @@ export function BarChart({
                 height={Math.max(primaryH, 1)}
                 rx={Math.min(4, barW / 2)}
                 fill={`url(#bar-${id})`}
-              />
+              >
+                <title>{`${datum.label}: ${format(datum.value)}`}</title>
+              </rect>
               {datum.secondary != null ? (
                 <rect
                   className="bar"
@@ -98,8 +117,10 @@ export function BarChart({
                   width={barW}
                   height={Math.max(secondaryH, 1)}
                   rx={Math.min(4, barW / 2)}
-                  fill="var(--line-strong)"
-                />
+                  fill="var(--chart-muted)"
+                >
+                  <title>{`${datum.label} ${secondaryLabel ?? 'secondary'}: ${format(datum.secondary)}`}</title>
+                </rect>
               ) : null}
               <text className="axis-label" x={x} y={height - 7} textAnchor="middle">
                 {data.length > 8 && index % 2 === 1 ? '' : datum.label}
@@ -163,7 +184,7 @@ export function LineChart({
   height?: number;
   ariaLabel: string;
 }) {
-  const width = 700;
+  const [chartRef, width] = useMeasuredWidth(700);
   const padding = { top: 16, right: 16, bottom: 26, left: 16 };
   const plotW = width - padding.left - padding.right;
   const plotH = height - padding.top - padding.bottom;
@@ -195,12 +216,18 @@ export function LineChart({
   const zeroY = yFor(0);
 
   return (
-    <div className="chart">
-      <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={ariaLabel} style={{ height }}>
+    <div className="chart" ref={chartRef}>
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="none"
+        role="img"
+        aria-label={ariaLabel}
+        style={{ height }}
+      >
         <defs>
           <linearGradient id={`area-${id}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.02" />
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.34" />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.01" />
           </linearGradient>
         </defs>
         {[0, 0.5, 1].map((ratio) => {
@@ -232,13 +259,16 @@ export function LineChart({
           index === data.length - 1 ? (
             <circle
               key={datum.date}
+              className="last-point"
               cx={xFor(index)}
               cy={yFor(datum.value)}
-              r={4.5}
+              r={5}
               fill="var(--accent)"
               stroke="var(--surface)"
               strokeWidth={2}
-            />
+            >
+              <title>{`${datum.label ?? datum.date}: ${format(datum.value)}`}</title>
+            </circle>
           ) : null,
         )}
         <text className="axis-label" x={padding.left} y={height - 6}>
@@ -272,5 +302,106 @@ export function LineChart({
         </div>
       </details>
     </div>
+  );
+}
+
+export function DonutChart({
+  data,
+  format,
+  centerValue,
+  centerLabel,
+  ariaLabel,
+}: {
+  data: { label: string; value: number }[];
+  format: (value: number) => string;
+  centerValue: string;
+  centerLabel: string;
+  ariaLabel: string;
+}) {
+  const total = data.reduce((sum, datum) => sum + Math.max(0, datum.value), 0);
+  const radius = 58;
+  const circumference = 2 * Math.PI * radius;
+  let offset = 0;
+
+  return (
+    <div className="donut">
+      <svg viewBox="0 0 160 160" role="img" aria-label={ariaLabel}>
+        <circle cx={80} cy={80} r={radius} fill="none" stroke="var(--surface-2)" strokeWidth={18} />
+        {total > 0
+          ? data.map((datum, index) => {
+              const share = Math.max(0, datum.value) / total;
+              const length = share * circumference;
+              const dashOffset = -offset;
+              offset += length;
+              return (
+                <circle
+                  key={`${datum.label}-${index}`}
+                  className="donut-segment"
+                  cx={80}
+                  cy={80}
+                  r={radius}
+                  fill="none"
+                  stroke={DONUT_COLORS[index % DONUT_COLORS.length]}
+                  strokeWidth={18}
+                  strokeDasharray={`${length} ${circumference - length}`}
+                  strokeDashoffset={dashOffset}
+                >
+                  <title>{`${datum.label}: ${format(datum.value)} (${Math.round(share * 100)}%)`}</title>
+                </circle>
+              );
+            })
+          : null}
+      </svg>
+      <div className="donut-center">
+        <strong>{centerValue}</strong>
+        <span>{centerLabel}</span>
+      </div>
+    </div>
+  );
+}
+
+export function Sparkline({
+  data,
+  ariaLabel,
+  height = 64,
+}: {
+  data: number[];
+  ariaLabel: string;
+  height?: number;
+}) {
+  const width = 320;
+  const pad = 6;
+  const values = data.length > 0 ? data : [0, 0];
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max - min || 1;
+  const lastIndex = Math.max(1, values.length - 1);
+  const xFor = (index: number) => 3 + (index / lastIndex) * (width - 6);
+  const yFor = (value: number) => pad + (1 - (value - min) / span) * (height - pad * 2);
+  const line = values
+    .map(
+      (value, index) =>
+        `${index === 0 ? 'M' : 'L'}${xFor(index).toFixed(1)},${yFor(value).toFixed(1)}`,
+    )
+    .join(' ');
+  const area = `${line} L${xFor(values.length - 1).toFixed(1)},${height} L${xFor(0).toFixed(1)},${height} Z`;
+
+  return (
+    <svg
+      className="sparkline"
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="none"
+      role="img"
+      aria-label={ariaLabel}
+    >
+      <path className="spark-area" d={area} opacity={0.55} />
+      <path className="spark-line" d={line} />
+      <circle
+        className="spark-dot"
+        cx={xFor(values.length - 1)}
+        cy={yFor(values[values.length - 1])}
+        r={3.5}
+      />
+    </svg>
   );
 }

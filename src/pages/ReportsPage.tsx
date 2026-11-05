@@ -4,7 +4,8 @@ import { addMonths, endOfMonth, formatMonth, startOfMonth } from '../domain/date
 import { buildReport, budgetPerformance, defaultReportRange } from '../domain/reports';
 import { toCSV } from '../domain/csv';
 import { useData, useFormatters } from '../state/DataContext';
-import { BarChart } from '../components/charts';
+import { BarChart, DonutChart } from '../components/charts';
+import { DONUT_COLORS } from '../components/chartPalette';
 import { Badge, Button, Card, EmptyState, PageIntro, ProgressBar } from '../components/ui';
 import { Icon } from '../components/icons';
 import { downloadText, todayStamp } from '../lib/files';
@@ -258,45 +259,78 @@ export function ReportsPage() {
             Choose a wider date range, or record some transactions.
           </EmptyState>
         ) : (
-          <div className="table-wrap">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Category</th>
-                  <th scope="col" className="num">
-                    Amount
-                  </th>
-                  <th scope="col" className="num">
-                    Share
-                  </th>
-                  <th scope="col" style={{ width: '30%' }}>
-                    Distribution
-                  </th>
-                  <th scope="col" />
-                </tr>
-              </thead>
-              <tbody>
-                {report.categories.map((row) => (
-                  <tr key={row.categoryId ?? 'uncategorized'}>
-                    <td className="table-link">{row.categoryName}</td>
-                    <td className="num">{money(row.amount)}</td>
-                    <td className="num">{row.share.toFixed(1)}%</td>
-                    <td>
-                      <ProgressBar value={row.share} label={`${row.categoryName} share`} />
-                    </td>
-                    <td className="actions">
-                      <Link
-                        to={`/transactions?from=${from}&to=${to}&type=expense${row.categoryId ? `&category=${row.categoryId}` : ''}`}
-                        className="btn btn-ghost btn-sm"
-                      >
-                        Drill down
-                      </Link>
-                    </td>
+          <>
+            <div className="reports-donut">
+              <div className="donut-layout">
+                <DonutChart
+                  data={report.categories.map((row) => ({
+                    label: row.categoryName,
+                    value: row.amount,
+                  }))}
+                  format={(value) => money(value)}
+                  centerValue={money(report.netSpending, { compact: true })}
+                  centerLabel="Net spending"
+                  ariaLabel="Spending distribution by category for the selected period"
+                />
+                <ul className="donut-legend">
+                  {report.categories.map((row, index) => (
+                    <li key={row.categoryId ?? 'uncategorized'}>
+                      <span
+                        className="dot"
+                        style={{
+                          background: DONUT_COLORS[index % DONUT_COLORS.length],
+                          color: DONUT_COLORS[index % DONUT_COLORS.length],
+                        }}
+                      />
+                      <span className="name">{row.categoryName}</span>
+                      <span className="share">
+                        {money(row.amount)} · {row.share.toFixed(0)}%
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="table-wrap">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col" className="num">
+                      Amount
+                    </th>
+                    <th scope="col" className="num">
+                      Share
+                    </th>
+                    <th scope="col" style={{ width: '30%' }}>
+                      Distribution
+                    </th>
+                    <th scope="col" />
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {report.categories.map((row) => (
+                    <tr key={row.categoryId ?? 'uncategorized'}>
+                      <td className="table-link">{row.categoryName}</td>
+                      <td className="num">{money(row.amount)}</td>
+                      <td className="num">{row.share.toFixed(1)}%</td>
+                      <td>
+                        <ProgressBar value={row.share} label={`${row.categoryName} share`} />
+                      </td>
+                      <td className="actions">
+                        <Link
+                          to={`/transactions?from=${from}&to=${to}&type=expense${row.categoryId ? `&category=${row.categoryId}` : ''}`}
+                          className="btn btn-ghost btn-sm"
+                        >
+                          Drill down
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </Card>
 
